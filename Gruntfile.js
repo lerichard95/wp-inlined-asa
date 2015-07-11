@@ -23,14 +23,14 @@ module.exports = function(grunt) {
             dist: {                  
                 options: {
                     sassDir: '<%= src %>/scss',
-                    cssDir: '<%= dev %>/css',
+                    cssDir: '<%= src %>/css',
                     environment: 'production'
                 }
             },
             dev: {                    
                 options: {
                     sassDir: '<%= src %>/scss',
-                    cssDir: '<%= dev %>/css'
+                    cssDir: '<%= src %>/css'
                 }
             }
         },
@@ -65,10 +65,19 @@ module.exports = function(grunt) {
             files: ['test/**/*.html']
         },
         watch: {
+            inline : {
+                files: '<%= src %>/*.html',
+                tasks:'default',
+                options: {
+                    livereload: true,
+                }
+            },
             compass: {
                 files: '<%= src %>/scss/style.scss',
                 tasks: 'default'
-            },
+            }
+/*
+            ,
             gruntfile: {
                 files: '<%= jshint.gruntfile.src %>',
                 tasks: ['jshint:gruntfile']
@@ -77,6 +86,7 @@ module.exports = function(grunt) {
                 files: '<%= jshint.lib_test.src %>',
                 tasks: ['jshint:lib_test', 'qunit']
             }
+*/
         }
     });
 
@@ -86,9 +96,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-inline-css');
-
+    grunt.loadNpmTasks('grunt-express');
+    
     // Default task.
     grunt.registerTask('default', ['compass:dist', 'inlinecss']);
-    grunt.registerTask('watch', ['watch']);
+    grunt.registerTask('autoupdate', ['watch']);
 
 };
